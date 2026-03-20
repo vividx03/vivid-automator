@@ -5,7 +5,7 @@ import json
 from telebot import types
 
 # Bot Token
-BOT_TOKEN = "8730422106:AAGmhBY6u30feoj41lp8c283eGJHG3_axxo"
+BOT_TOKEN = "BOT_TOKEN"
 bot = telebot.TeleBot(BOT_TOKEN)
 
 # Isse 0% change rakha hai, bas file reading logic add ki hai
