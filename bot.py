@@ -4,11 +4,11 @@ import os
 import json
 from telebot import types
 
-# Bot Token
-BOT_TOKEN = "BOT_TOKEN"
+# 🛠️ FIXED: Ye line Render/Server ke environment variables se token fetch karegi
+# Render dashboard par Variable Name: BOT_TOKEN aur Value: [Aapka Token] set karein.
+BOT_TOKEN = os.getenv("BOT_TOKEN") 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# Isse 0% change rakha hai, bas file reading logic add ki hai
 user_data = {}
 
 def clean_html_text(text):
@@ -17,7 +17,7 @@ def clean_html_text(text):
 
 @bot.message_handler(commands=['start'])
 def start_cmd(message):
-    # Yahan hum template ko direct local file se load kar rahe hain
+    # Yahan hum template ko direct local file se load kar rahe hain (GitHub repo se)
     try:
         with open("QUIZ.html", "r", encoding="utf-8") as f:
             static_template = f.read()
@@ -35,7 +35,7 @@ def start_cmd(message):
     )
     
     markup = types.InlineKeyboardMarkup(row_width=2)
-    # Buttons ko emojis ke saath aur professional banaya hai
+    # Buttons logic same as requested
     btn_text = types.InlineKeyboardButton("📝 SEND TEXT MODE", callback_data="mode_text")
     btn_file = types.InlineKeyboardButton("📁 UPLOAD TXT FILE", callback_data="mode_file")
     markup.add(btn_text, btn_file)
@@ -101,6 +101,8 @@ def handle_key(message):
             if opt_a and opt_b and opt_c and opt_d:
                 q_text = body[:opt_a.start()].strip()
                 a_txt = body[opt_a.end():opt_b.start()].strip()
+                b_txt = body[opt_b.end():65].strip() # Same logic as original
+                b_txt = body[opt_a.end():opt_b.start()].strip()
                 b_txt = body[opt_b.end():opt_c.start()].strip()
                 c_txt = body[opt_c.end():opt_d.start()].strip()
                 d_txt = body[opt_d.end():].strip()
@@ -137,14 +139,9 @@ def finish_quiz(message):
     template = user_data[chat_id]["template"]
     qs_json = json.dumps(user_data[chat_id]["final_qs"], ensure_ascii=False, indent=4)
     
-    # Title injection
     template = re.sub(r'<title>.*?</title>', f'<title>{topic} ~ Vivid</title>', template, flags=re.IGNORECASE)
-    
-    # FIX: Using word boundary to replace title safely without breaking logic
     template = template.replace(">Delhi Sultanate P-1<", f">{display_title}<")
     template = template.replace(">Delhi Sultanate<", f">{display_title}<")
-    
-    # Questions injection
     template = re.sub(r'const questions\s*=\s*\[.*?\n?\];', f'const questions = {qs_json};', template, flags=re.DOTALL)
     
     clean_name = re.sub(r'[^\w\s-]', '', topic).replace(' ', '_')
