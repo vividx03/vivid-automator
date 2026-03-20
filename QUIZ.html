@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 
+        Delhi Sultanate P-1
+        Core Idea, Content & Branding: Vivid
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Delhi Sultanate P-1 ~ Vivid</title>
+    <meta name="author" content="Vivid">
+    <meta name="description" content="Interactive medieval India quiz on Islamic invasions, created by Vivid.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================
+           GLOBAL BASE STYLES
+           ================================
+           NOTE: Core credit: Vivid
+        */
+
+        :root{
+            --bg-light:#f4f6f8;
+            --bg-dark:#090b10;
+
+            --card-light:#ffffff;
+            --card-dark:#111827;
+
+            --primary:#0d6efd;
+            --primary-soft:rgba(13,110,253,0.1);
+
+            --success:#198754;
+            --success-soft:#d1e7dd;
+
+            --danger:#dc3545;
+            --danger-soft:#f8d7da;
+
+            --warning:#ffc107;
+            --warning-soft:#fff3cd;
+
+            --text-main-light:#111827;
+            --text-main-dark:#e5e7eb;
+
+            --text-sub-light:#4b5563;
+            --text-sub-dark:#9ca3af;
+
+            --border-soft-light:#e5e7eb;
+            --border-soft-dark:#1f2933;
+
+            --accent-gradient:linear-gradient(45deg,#ffdd00,#ff4ecd,#00e0ff);
+        }
+
+        *{
+            box-sizing:border-box;
+        }
+
+        body{
+            margin:0;
+            font-family:'Poppins',Arial,sans-serif;
+            background:var(--bg-light);
+            color:var(--text-main-light);
+            transition:background .25s ease,color .25s ease;
+
+            /* === Disable text selection === */
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+
+        body.dark{
+            background:var(--bg-dark);
+            color:var(--text-main-dark);
+        }
+
+        a{
+            color:inherit;
+            text-decoration:none;
+        }
+
+        /* ================================
+           HEADER / BRANDING (Vivid)
+           ================================ */
+
+        .header{
+            background:var(--primary);
+            color:#fff;
+            padding:15px 10px;
+            text-align:center;
+            font-size:22px;
+            font-weight:600;
+            position:sticky;
+            top:0;
+            z-index:50;
+        }
+
+        .header-inner{
+            max-width:980px;
+            margin:0 auto;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+        }
+
+        .header-title{
+            display:flex;
+            align-items:center;
+            gap:6px;
+            flex-wrap:wrap;
+            justify-content:center;
+        }
+
+        .header-title span{
+            white-space:nowrap;
+        }
+
+        .vivid{
+            font-family:'Pacifico',cursive;
+            background:var(--accent-gradient);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            margin-left:4px;
+            font-size:24px;
+        }
+
+        .badge-mini{
+            font-size:11px;
+            border-radius:999px;
+            padding:3px 8px;
+            background:rgba(255,255,255,.18);
+            border:1px solid rgba(255,255,255,.35);
+        }
+
+        .theme-toggle{
+            border:none;
+            border-radius:999px;
+            padding:6px 12px;
+            font-size:12px;
+            cursor:pointer;
+            background:#fff;
+            color:#111827;
+            display:flex;
+            align-items:center;
+            gap:6px;
+            box-shadow:0 1px 3px rgba(0,0,0,.15);
+        }
+
+        body.dark .theme-toggle{
+            background:#111827;
+            color:#e5e7eb;
+            box-shadow:0 1px 3px rgba(0,0,0,.6);
+        }
+
+        .theme-toggle span.icon{
+            font-size:14px;
+        }
+
+        /* ================================
+           MAIN CONTAINER
+           ================================ */
+
+        .page-wrap{
+            max-width:980px;
+            margin:15px auto 30px auto;
+            padding:0 10px 25px;
+        }
+
+        .quiz-box{
+            background:var(--card-light);
+            border-radius:12px;
+            padding:18px 18px 20px 18px;
+            box-shadow:0 4px 12px rgba(0,0,0,.08);
+            border:1px solid var(--border-soft-light);
+            display:grid;
+            grid-template-columns:260px minmax(0,1fr);
+            gap:16px;
+        }
+
+        body.dark .quiz-box{
+            background:var(--card-dark);
+            border-color:var(--border-soft-dark);
+            box-shadow:0 12px 35px rgba(0,0,0,.75);
+        }
+
+        @media(max-width:800px){
+            .quiz-box{
+                grid-template-columns:1fr;
+            }
+        }
+
+        /* ================================
+           LEFT PANEL: INFO + PALETTE
+           ================================ */
+
+        .side-panel{
+            border-right:1px dashed var(--border-soft-light);
+            padding-right:10px;
+        }
+
+        body.dark .side-panel{
+            border-right-color:var(--border-soft-dark);
+        }
+
+        @media(max-width:800px){
+            .side-panel{
+                border-right:none;
+                border-bottom:1px dashed var(--border-soft-light);
+                padding-right:0;
+                padding-bottom:12px;
+                margin-bottom:12px;
+            }
+            body.dark .side-panel{
+                border-bottom-color:var(--border-soft-dark);
+            }
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:12px;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+
+        .timer{
+            font-weight:600;
+            font-size:14px;
+        }
+
+        .timer span{
+            font-variant-numeric:tabular-nums;
+        }
+
+        .submit{
+            padding:8px 16px;
+            border:none;
+            border-radius:6px;
+            background:var(--success);
+            color:#fff;
+            cursor:pointer;
+            font-size:14px;
+            font-weight:600;
+            transition:background .2s ease,transform .15s ease;
+        }
+
+        .submit:hover{
+            background:#146c43;
+            transform:translateY(-1px);
+        }
+
+        .meta-strip{
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+            font-size:11px;
+            margin-bottom:10px;
+        }
+
+        .meta-pill{
+            padding:3px 8px;
+            border-radius:999px;
+            background:var(--primary-soft);
+            color:#0b4bb8;
+        }
+
+        body.dark .meta-pill{
+            background:rgba(37,99,235,0.1);
+            color:#93c5fd;
+        }
+
+        .meta-pill.alt{
+            background:#eef4ff;
+            color:#1e40af;
+        }
+
+        body.dark .meta-pill.alt{
+            background:#020617;
+            color:#a5b4fc;
+        }
+
+        .palette-wrap{
+            margin-top:6px;
+        }
+
+        .palette-title{
+            font-size:13px;
+            font-weight:600;
+            margin-bottom:5px;
+        }
+
+        .palette-grid{
+            display:grid;
+            grid-template-columns:repeat(5,1fr);
+            gap:6px;
+        }
+
+        .q-btn{
+            border-radius:6px;
+            border:1px solid var(--border-soft-light);
+            background:#f9fafb;
+            font-size:11px;
+            padding:6px 0;
+            cursor:pointer;
+            text-align:center;
+            transition:background .15s ease,border-color .15s ease,transform .1s ease;
+        }
+
+        .q-btn span{
+            display:block;
+        }
+
+        .q-btn:hover{
+            transform:translateY(-1px);
+            background:#eef2ff;
+        }
+
+        .q-btn.active{
+            border-color:var(--primary);
+            background:#e0edff;
+        }
+
+        .q-btn.answered{
+            border-color:var(--success);
+            background:#e6f4ea;
+        }
+
+        .q-btn.not-visited{
+            opacity:.65;
+        }
+
+        body.dark .q-btn{
+            background:#020617;
+            border-color:#1f2937;
+            color:#e5e7eb;
+        }
+
+        body.dark .q-btn:hover{
+            background:#111827;
+        }
+
+        body.dark .q-btn.active{
+            background:#1d4ed8;
+            border-color:#60a5fa;
+            color:#e5e7eb;
+        }
+
+        body.dark .q-btn.answered{
+            background:#065f46;
+            border-color:#6ee7b7;
+        }
+
+        .legend{
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+            margin-top:8px;
+            font-size:11px;
+        }
+
+        .legend-item{
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+
+        .legend-dot{
+            width:10px;
+            height:10px;
+            border-radius:3px;
+            border:1px solid #9ca3af;
+            background:#f9fafb;
+        }
+
+        .legend-dot.answered{
+            background:#d1e7dd;
+            border-color:#198754;
+        }
+
+        .legend-dot.current{
+            background:#e0edff;
+            border-color:#0d6efd;
+        }
+
+        .legend-dot.not-visited{
+            background:#f1f5f9;
+        }
+
+        body.dark .legend-dot{
+            background:#020617;
+            border-color:#4b5563;
+        }
+
+        body.dark .legend-dot.answered{
+            background:#065f46;
+            border-color:#22c55e;
+        }
+
+        body.dark .legend-dot.current{
+            background:#1d4ed8;
+            border-color:#60a5fa;
+        }
+
+        /* ================================
+           RIGHT PANEL: QUESTION VIEW
+           ================================ */
+
+        #quiz{
+            display:block;
+        }
+
+        .question-no{
+            font-weight:600;
+            color:var(--primary);
+            font-size:14px;
+            margin-bottom:6px;
+        }
+
+        body.dark .question-no{
+            color:#93c5fd;
+        }
+
+        .question{
+            font-size:16px;
+            margin:10px 0 12px 0;
+            line-height:1.55;
+        }
+
+        .question small{
+            color:var(--text-sub-light);
+        }
+
+        body.dark .question small{
+            color:var(--text-sub-dark);
+        }
+
+        #options{
+            margin-top:6px;
+        }
+
+        .option{
+            display:flex;
+            align-items:flex-start;
+            gap:10px;
+            border:2px solid #ddd;
+            padding:10px 10px;
+            border-radius:8px;
+            margin-bottom:10px;
+            cursor:pointer;
+            transition:all .18s ease;
+            font-size:14px;
+            background:#f9fafb;
+        }
+
+        .option:hover{
+            transform:scale(1.01);
+            border-color:var(--primary);
+            background:#eef2ff;
+        }
+
+        .option input{
+            margin-top:3px;
+            flex-shrink:0;
+        }
+
+        .option.correct{
+            background:var(--success-soft);
+            border-color:var(--success);
+            color:#0f5132;
+        }
+
+        .option.wrong{
+            background:var(--danger-soft);
+            border-color:var(--danger);
+            color:#842029;
+        }
+
+        body.dark .option{
+            border-color:#1f2937;
+            background:#020617;
+            color:#e5e7eb;
+        }
+
+        body.dark .option:hover{
+            background:#111827;
+            border-color:#3b82f6;
+        }
+
+        body.dark .option.correct{
+            background:#064e3b;
+            border-color:#22c55e;
+            color:#bbf7d0;
+        }
+
+        body.dark .option.wrong{
+            background:#7f1d1d;
+            border-color:#ef4444;
+            color:#fee2e2;
+        }
+
+        .nav{
+            display:flex;
+            gap:10px;
+            margin-top:14px;
+            flex-wrap:wrap;
+        }
+
+        .nav button{
+            flex:1;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+            font-size:14px;
+            cursor:pointer;
+            transition:background .15s ease,transform .08s ease,box-shadow .12s ease;
+            font-weight:500;
+        }
+
+        .nav button:hover{
+            transform:translateY(-1px);
+            box-shadow:0 2px 6px rgba(15,23,42,.18);
+        }
+
+        body.dark .nav button:hover{
+            box-shadow:0 4px 10px rgba(0,0,0,.85);
+        }
+
+        .clear{
+            background:var(--warning);
+            color:#111827;
+        }
+
+        .prev{
+            background:#6c757d;
+            color:#fff;
+        }
+
+        .next{
+            background:var(--primary);
+            color:#fff;
+        }
+
+        /* ================================
+           RESULT VIEW
+           ================================ */
+
+        .result{
+            display:none;
+            margin-top:10px;
+        }
+
+        .score-box{
+            background:#eef4ff;
+            border:2px solid var(--primary);
+            border-radius:10px;
+            padding:18px;
+            text-align:center;
+            font-size:22px;
+            font-weight:700;
+            margin-bottom:20px;
+        }
+
+        body.dark .score-box{
+            background:#020617;
+            border-color:#3b82f6;
+            color:#e5e7eb;
+        }
+
+        .correct-text{
+            color:#198754;
+        }
+
+        .wrong-text{
+            color:#dc3545;
+        }
+
+        .explain-block{
+            border-bottom:1px solid var(--border-soft-light);
+            padding:10px 0 12px;
+            font-size:14px;
+        }
+
+        body.dark .explain-block{
+            border-bottom-color:var(--border-soft-dark);
+        }
+
+        .solution{
+            background:#f8f9ff;
+            padding:8px;
+            border-left:4px solid var(--primary);
+            margin-top:6px;
+            font-size:13px;
+            border-radius:4px;
+        }
+
+        body.dark .solution{
+            background:#020617;
+            border-left-color:#3b82f6;
+        }
+
+        .sol-toggle{
+            margin-top:4px;
+            font-size:12px;
+            color:var(--primary);
+            cursor:pointer;
+            text-decoration:underline;
+        }
+
+        body.dark .sol-toggle{
+            color:#93c5fd;
+        }
+
+        /* ================================
+           POPUP (WHATSAPP GATE)
+           ================================ */
+
+        .popup-overlay{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.85);
+            display:none;
+            justify-content:center;
+            align-items:center;
+            z-index:1000;
+        }
+
+        .popup{
+            background:#fff;
+            padding:25px 20px;
+            max-width:420px;
+            width:90%;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        .popup h3{
+            margin-top:0;
+            color:var(--primary);
+            font-size:20px;
+        }
+
+        .popup p{
+            margin:10px 0 18px;
+            font-size:14px;
+            line-height:1.5;
+        }
+
+        .popup button{
+            padding:10px 20px;
+            border:none;
+            border-radius:6px;
+            font-size:14px;
+            cursor:pointer;
+            font-weight:600;
+        }
+
+        .popup .join{
+            background:#25d366;
+            color:#fff;
+        }
+
+        /* Dark-mode popup styling */
+        body.dark .popup{
+            background:#020617;
+            color:#e5e7eb;
+            box-shadow:0 4px 16px rgba(0,0,0,0.8);
+        }
+
+        body.dark .popup h3{
+            color:#93c5fd;
+        }
+
+        body.dark .popup p{
+            color:#e5e7eb;
+        }
+
+        /* ================================
+           FOOTER NOTE (Vivid)
+           ================================ */
+
+        .footer-note{
+            margin-top:12px;
+            font-size:11px;
+            color:#6b7280;
+            text-align:center;
+        }
+
+        body.dark .footer-note{
+            color:#9ca3af;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER with Vivid branding -->
+<div class="header">
+    <div class="header-inner">
+        <div class="header-title">
+            <span>Delhi Sultanate P-1</span>
+            <span class="vivid">~ Vivid</span>
+            <span class="badge-mini">MCQ • History • Medieval India</span>
+        </div>
+        <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light/dark theme">
+            <span class="icon" id="themeIcon">🌙</span>
+            <span id="themeLabel">Dark Mode</span>
+        </button>
+    </div>
+</div>
+
+<div class="page-wrap">
+    <div class="quiz-box">
+        <!-- LEFT: info + palette -->
+        <aside class="side-panel">
+            <div class="top-bar">
+                <div class="timer">Time: <span id="time">00:00</span></div>
+                <button class="submit" type="button" onclick="submitQuiz()">Submit</button>
+            </div>
+
+            <div class="meta-strip">
+                <div class="meta-pill">Total Qs: <strong id="totalQMeta">25</strong></div>
+                <div class="meta-pill alt">Attempted: <strong id="attemptedMeta">0</strong></div>
+                <div class="meta-pill">Created by <strong>Vivid</strong></div>
+            </div>
+
+            <div class="palette-wrap">
+                <div class="palette-title">Question Palette</div>
+                <div class="palette-grid" id="qPalette">
+                    <!-- JS will inject Q buttons -->
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-dot not-visited"></span>
+                        <span>Not Visited</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot current"></span>
+                        <span>Current</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot answered"></span>
+                        <span>Answered</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT: quiz view -->
+        <section id="quiz">
+            <div class="question-no" id="qno"></div>
+            <div class="question" id="question"></div>
+            <div id="options"></div>
+            <div class="nav">
+                <button class="clear" type="button" onclick="clearAns()">Clear</button>
+                <button class="prev" type="button" onclick="prevQ()">Previous</button>
+                <button class="next" type="button" onclick="nextQ()">Next</button>
+            </div>
+        </section>
+
+        <!-- RESULT -->
+        <section class="result" id="result"></section>
+    </div>
+
+    <div class="footer-note">
+        Quiz concept, content &amp; main design by <strong>Vivid</strong>.  
+        This code is an extended version generated programmatically for Vivid's use.
+    </div>
+</div>
+
+<!-- POPUP: WhatsApp gate -->
+<div class="popup-overlay" id="popup">
+    <div class="popup">
+        <h3>Join Vivid on WhatsApp</h3>
+        <p>
+            This Medieval India (Islamic Invasions) quiz is provided by <b>Vivid</b>.<br>
+            Join our official WhatsApp channel to unlock all questions and stay updated
+            with more quizzes &amp; study material.
+        </p>
+        <button class="join" type="button" onclick="joinChannel()">Join Channel &amp; Continue</button>
+    </div>
+</div>
+
+<script>
+/* =====================================================
+   CORE CONFIG & DATA
+   ===================================================== */
+
+/* 
+ NOTE for Vivid:
+ _0xvh is a base64 encoded WhatsApp channel link to avoid
+ easy plain-text scraping. You can change the URL and re-encode.
+*/
+const _0xvh = "aHR0cHM6Ly93aGF0c2FwcC5jb20vY2hhbm5lbC8wMDI5VmJCalVCTTB3YWp6Qms5Mml3MnE="; 
+
+// Question data (now: Delhi Sultanate – Part 1)
+const questions = [
+ {q:"Who was the founder of the Slave Dynasty in India?<br>भारत में गुलाम वंश का संस्थापक कौन था?", options:["Iltutmish / इल्तुतमिश","Qutub-ud-din Aibak / कुतुब-उद-दीन ऐबक","Balban / बलबन","Razia Sultan / रज़िया सुल्तान"], ans:1, sol:"Qutub-ud-din Aibak founded the dynasty in 1206 AD. He was a former slave of Muhammad Ghori and ruled from Lahore initially. He is also known for starting the construction of the Qutub Minar.<br><br>कुतुब-उद-दीन ऐबक ने 1206 ईस्वी में इस वंश की स्थापना की थी। वह मुहम्मद गोरी का पूर्व गुलाम था और उसने शुरू में लाहौर से शासन किया था। उन्हें कुतुब मीनार का निर्माण शुरू करने के लिए भी जाना जाता है।"},
+ {q:"Which Sultan was known as 'Lakh Baksh' for his generosity?<br>किस सुल्तान को उसकी उदारता के लिए 'लाख बख्श' के नाम से जाना जाता था?", options:["Alauddin Khilji / अलाउद्दीन खिलजी","Ghiyasuddin Balban / गयासुद्दीन बलबन","Qutub-ud-din Aibak / कुतुब-उद-दीन ऐबक","Iltutmish / इल्तुतमिश"], ans:2, sol:"Qutub-ud-din Aibak was called 'Lakh Baksh' because he gave away large sums of money in charity. His reign was short (1206–1210 AD) as he died while playing Chaugan (Polo).<br><br>ऐबक को 'लाख बख्श' कहा जाता था क्योंकि वह दान में बड़ी रकम दिया करता था। उसका शासनकाल छोटा (1206–1210 ई.) रहा क्योंकि चौगान (पोलो) खेलते समय उसकी मृत्यु हो गई थी।"},
+ {q:"Who among the following was the first and only woman ruler of the Delhi Sultanate?<br>निम्नलिखित में से कौन दिल्ली सल्तनत की पहली और एकमात्र महिला शासिका थी?", options:["Chand Bibi / चाँद बीबी","Razia Sultan / रज़िया सुल्तान","Noor Jahan / नूरजहाँ","Mumtaz Mahal / मुमताज महल"], ans:1, sol:"Razia Sultan was the daughter of Iltutmish and ruled from 1236 to 1240 AD. She faced heavy opposition from the Turkish nobles (Chahalgani) mainly because she was a woman and tried to assert her independent authority.<br><br>रज़िया सुल्तान इल्तुतमिश की बेटी थी और उसने 1236 से 1240 ईस्वी तक शासन किया। एक महिला होने और स्वयं शासन चलाने की कोशिश करने के कारण उसे तुर्क रईसों (चहलगानी) के भारी विरोध का सामना करना पड़ा।"},
+ {q:"The 'Silver Tanka' and 'Copper Jital' coins were introduced by which Sultan?<br>'चांदी का टंका' और 'तांबे का जीतल' सिक्के किस सुल्तान द्वारा शुरू किए गए थे?", options:["Balban / बलबन","Iltutmish / इल्तुतमिश","Jalaluddin Khilji / जलालुद्दीन खिलजी","Qutub-ud-din Aibak / कुतुब-उद-दीन ऐबक"], ans:1, sol:"Iltutmish is considered the real founder of the Delhi Sultanate. He organized the administration and introduced a standard currency system by issuing the silver Tanka and copper Jital.<br><br>इल्तुतमिश को दिल्ली सल्तनत का वास्तविक संस्थापक माना जाता है। उसने प्रशासन को संगठित किया और चाँदी के टंका तथा तांबे के जीतल जारी कर एक मानक मुद्रा प्रणाली शुरू की।"},
+ {q:"Who completed the construction of the Qutub Minar?<br>कुतुब मीनार का निर्माण किसने पूरा करवाया था?", options:["Qutub-ud-din Aibak / कुतुब-उद-दीन ऐबक","Iltutmish / इल्तुतमिश","Firoz Shah Tughlaq / फिरोज शाह तुगलक","Alauddin Khilji / अलाउद्दीन खिलजी"], ans:1, sol:"While the base was built by Qutub-ud-din Aibak, Iltutmish completed the next three storeys of the Qutub Minar. Later, Firoz Shah Tughlaq repaired it and added the fifth storey after it was damaged by lightning.<br><br>जहाँ आधार कुतुब-उद-दीन ऐबक ने बनवाया था, वहीं इल्तुतमिश ने कुतुब मीनार की अगली तीन मंजिलें पूरी कराईं। बाद में बिजली गिरने से क्षति होने पर फिरोज शाह तुगलक ने इसकी मरम्मत की और पाँचवीं मंजिल जोड़ी।"},
+ {q:"Who was the founder of the Khilji Dynasty?<br>खिलजी वंश का संस्थापक कौन था?", options:["Alauddin Khilji / अलाउद्दीन खिलजी","Mubarak Khilji / मुबारक खिलजी","Jalal-ud-din Khilji / जलाल-उद-दीन खिलजी","Malik Kafur / मलिक काफ़ूर"], ans:2, sol:"Jalal-ud-din Khilji came to power in 1290 AD after overthrowing the last Mamluk (Slave) ruler. He is regarded as the founder of the Khilji Dynasty and was known for his comparatively lenient policy towards criminals and Mongols.<br><br>जलाल-उद-दीन खिलजी 1290 ईस्वी में अंतिम ममलूक (गुलाम) शासक को हटाकर सत्ता में आया और खिलजी वंश का संस्थापक माना जाता है। वह अपराधियों और मंगोलों के प्रति अपेक्षाकृत उदार नीति के लिए जाना जाता था।"},
+ {q:"Which Sultan of Delhi assumed the title of 'Sikandar-i-Sani' (The Second Alexander)?<br>दिल्ली के किस सुल्तान ने 'सिकंदर-ए-सानी' (द्वितीय सिकंदर) की उपाधि धारण की थी?", options:["Balban / बलबन","Alauddin Khilji / अलाउद्दीन खिलजी","Iltutmish / इल्तुतमिश","Muhammad bin Tughlaq / मुहम्मद बिन तुगलक"], ans:1, sol:"Alauddin Khilji dreamt of world conquest and called himself 'Sikandar-i-Sani' (the Second Alexander). He was the most powerful ruler of the Khilji dynasty and greatly expanded the Delhi Sultanate.<br><br>अलाउद्दीन खिलजी ने विश्व विजय का सपना देखा था और स्वयं को 'सिकंदर-ए-सानी' (दूसरा सिकंदर) कहा। वह खिलजी वंश का सबसे शक्तिशाली शासक था और उसने दिल्ली सल्तनत का व्यापक विस्तार किया।"},
+ {q:"The 'Dagh' (branding of horses) and 'Chehra' (descriptive roll of soldiers) systems were introduced by:<br>'दाग' (घोड़ों को दागना) और 'चेहरा' (सैनिकों का वर्णनात्मक रोल) प्रणाली किसके द्वारा शुरू की गई थी?", options:["Ghiyasuddin Tughlaq / गयासुद्दीन तुगलक","Alauddin Khilji / अलाउद्दीन खिलजी","Balban / बलबन","Iltutmish / इल्तुतमिश"], ans:1, sol:"These reforms were introduced by Alauddin Khilji as part of his military reorganization to prevent corruption in the army and to ensure the efficiency and genuineness of the soldiers and horses maintained by nobles.<br><br>ये सुधार अलाउद्दीन खिलजी ने अपनी सैन्य पुनर्गठन नीति के तहत लागू किए थे ताकि सेना में भ्रष्टाचार रोका जा सके और रईसों द्वारा रखे जाने वाले सैनिकों तथा घोड़ों की वास्तविक संख्या और गुणवत्ता सुनिश्चित की जा सके।"},
+ {q:"Who was the famous commander of Alauddin Khilji who led the South Indian expeditions?<br>अलाउद्दीन खिलजी का प्रसिद्ध सेनापति कौन था जिसने दक्षिण भारतीय अभियानों का नेतृत्व किया था?", options:["Zafar Khan / जफर खान","Malik Kafur / मलिक काफ़ूर","Alp Khan / अल्प खान","Ulugh Khan / उलूग खान"], ans:1, sol:"Malik Kafur, a slave general known as 'Hazar Dinari', led Alauddin Khilji's armies to the Deccan and far into South India, reaching as far as Madurai and extracting immense wealth and tribute from southern kingdoms.<br><br>मलिक काफ़ूर, जो 'हज़ार दीनारी' के नाम से प्रसिद्ध एक गुलाम सेनापति था, ने अलाउद्दीन खिलजी की सेनाओं का नेतृत्व करते हुए दक्कन और दक्षिण भारत में गहराई तक, मदुरै तक अभियान चलाया और दक्षिणी राज्यों से अपार धन और कर वसूला।"},
+ {q:"At which place did Qutub-ud-din Aibak die while playing Chaugan?<br>चौगान खेलते समय कुतुब-उद-दीन ऐबक की मृत्यु किस स्थान पर हुई थी?", options:["Delhi / दिल्ली","Agra / आगरा","Lahore / लाहौर","Ajmer / अजमेर"], ans:2, sol:"Qutub-ud-din Aibak died in 1210 AD after falling from a horse while playing Chaugan (a form of Polo) at Lahore. He was buried in Lahore, which served as his capital.<br><br>कुतुब-उद-दीन ऐबक की मृत्यु 1210 ईस्वी में लाहौर में चौगान (पोलो का एक रूप) खेलते समय घोड़े से गिरने के कारण हुई। उन्हें लाहौर में ही दफनाया गया, जो उनकी राजधानी भी थी।"},
+ {q:"Which Sultan abolished the 'Turkan-i-Chahalgani' (Group of Forty)?<br>किस सुल्तान ने 'तुर्कान-ए-चहलगानी' (चालीसा दल) को समाप्त कर दिया था?", options:["Iltutmish / इल्तुतमिश","Balban / बलबन","Razia Sultan / रज़िया सुल्तान","Nasiruddin Mahmud / नसीरुद्दीन महमूद"], ans:1, sol:"Balban was himself once a member of the Chahalgani (Group of Forty Turkish nobles) but realized that they were a threat to the Sultan's power. After becoming Sultan, he systematically crushed their power to centralize authority.<br><br>बलबन स्वयं कभी चहलगानी (चालीसा तुर्क रईसों का समूह) का सदस्य था, लेकिन उसने महसूस किया कि यह समूह सुल्तान की शक्ति के लिए खतरा है। सुल्तान बनने के बाद उसने उनकी शक्ति को कुचलकर अधिकार को अपने हाथों में केंद्रीकृत कर लिया।"},
+ {q:"The Persian festival of 'Navroz' was introduced in India by which Sultan?<br>भारत में फ़ारसी त्योहार 'नवरोज़' की शुरुआत किस सुल्तान ने की थी?", options:["Alauddin Khilji / अलाउद्दीन खिलजी","Balban / बलबन","Iltutmish / इल्तुतमिश","Firoz Tughlaq / फिरोज तुगलक"], ans:1, sol:"Balban introduced Persian court etiquettes and the celebration of the festival of Navroz in his court to enhance the prestige and imperial dignity of the Sultanate in the eyes of the people and nobles.<br><br>बलबन ने जनता और रईसों की नज़र में सल्तनत की प्रतिष्ठा और शाही गरिमा बढ़ाने के लिए फ़ारसी दरबारी शिष्टाचार और नवरोज़ त्योहार के उत्सव की शुरुआत की।"},
+ {q:"Who was the first Sultan of Delhi to demand land revenue based on the measurement of land?<br>भूमि की माप के आधार पर भू-राजस्व की मांग करने वाला दिल्ली का पहला सुल्तान कौन था?", options:["Ghiyasuddin Tughlaq / गयासुद्दीन तुगलक","Iltutmish / इल्तुतमिश","Alauddin Khilji / अलाउद्दीन खिलजी","Mohammad bin Tughlaq / मोहम्मद बिन तुगलक"], ans:2, sol:"Alauddin Khilji introduced the 'Masahat' system (measurement of land) in the Doab and fixed the state's share at about half of the produce, aiming to maximize revenue to maintain his large standing army.<br><br>अलाउद्दीन खिलजी ने दोआब क्षेत्र में 'मसाहत' प्रणाली (भूमि माप) शुरू की और राज्य का हिस्सा उपज के लगभग आधे भाग के रूप में निर्धारित किया, ताकि अपनी बड़ी स्थायी सेना के लिए राजस्व को अधिकतम किया जा सके।"},
+ {q:"The 'Blood and Iron' policy was adopted by which ruler?<br>'रक्त और लौह' की नीति किस शासक द्वारा अपनाई गई थी?", options:["Alauddin Khilji / अलाउद्दीन खिलजी","Balban / बलबन","Iltutmish / इल्तुतमिश","Qutub-ud-din Aibak / कुतुब-उद-दीन ऐबक"], ans:1, sol:"Balban used a harsh 'Blood and Iron' policy to suppress internal rebellions (such as the Mewatis) and to defend the frontiers against Mongol invasions. It involved the ruthless use of force and severe punishments.<br><br>बलबन ने आंतरिक विद्रोहों (जैसे मेवातियों) को कुचलने और मंगोल आक्रमणों के विरुद्ध सीमाओं की रक्षा के लिए कठोर 'रक्त और लौह' की नीति अपनाई, जिसमें क्रूर बल प्रयोग और कड़े दंड शामिल थे।"},
+ {q:"Which department was known as 'Diwan-i-Arz' under the Delhi Sultanate?<br>दिल्ली सल्तनत के तहत किस विभाग को 'दीवान-ए-अर्ज़' के रूप में जाना जाता था?", options:["Finance Department / वित्त विभाग","Military Department / सैन्य विभाग","Religious Department / धार्मिक विभाग","Foreign Affairs Department / विदेश विभाग"], ans:1, sol:"Under the Delhi Sultanate, 'Diwan-i-Arz' was the military department. Balban reorganized this department to make the army more efficient. It was headed by the 'Ariz-i-Mumalik'.<br><br>दिल्ली सल्तनत के तहत 'दीवान-ए-अर्ज़' सैन्य विभाग था। बलबन ने सेना को अधिक कुशल बनाने के लिए इस विभाग का पुनर्गठन किया। इसका प्रमुख 'आरिज़-ए-मुमालिक' कहलाता था।"},
+ {q:"Consider the following statements regarding Iltutmish:<br>इल्तुतमिश के संबंध में निम्नलिखित कथनों पर विचार करें:<br>1. He introduced the Iqta system in India.<br>1. उसने भारत में इکتا प्रणाली की शुरुआत की।<br>2. He was the first to issue purely Arabic coinage.<br>2. वह शुद्ध अरबी सिक्के जारी करने वाला पहला व्यक्ति था।<br>Select the correct option:<br>सही विकल्प का चयन करें:", options:["Only 1 / केवल 1","Only 2 / केवल 2","Both 1 and 2 / 1 और 2 दोनों","Neither 1 nor 2 / न तो 1 और न ही 2"], ans:2, sol:"Iltutmish introduced the Iqta system to manage land revenue and pay officers in the form of assignments of land. He also issued the Tanka and Jital, considered the first purely Arabic coins in India.<br><br>इल्तुतमिश ने भू-राजस्व का प्रबंधन करने और अधिकारियों को भुगतान करने के लिए इक्ता प्रणाली शुरू की, जिसके अंतर्गत उन्हें भूमि-आवंटन दिया जाता था। उसने टंका और जीतल नामक सिक्के भी जारी किए, जिन्हें भारत में पहले शुद्ध अरबी सिक्के माना जाता है।"},
+ {q:"Assertion (A): Balban introduced Sijda and Paibos in his court.<br>अभिकथन (A): बलबन ने अपने दरबार में सिजदा और पैबोस की शुरुआत की।<br>Reason (R): He wanted to establish the superiority of the Sultan over the nobles.<br>कारण (R): वह रईसों पर सुल्तान की श्रेष्ठता स्थापित करना चाहता था।", options:["Both A and R are true and R is the correct explanation of A. / A और R दोनों सत्य हैं और R, A की सही व्याख्या है।","Both A and R are true but R is not the correct explanation of A. / A और R दोनों सत्य हैं लेकिन R, A की सही व्याख्या नहीं है।","A is true but R is false. / A सत्य है लेकिन R असत्य है।","A is false but R is true. / A असत्य है लेकिन R सत्य है।"], ans:0, sol:"Sijda (prostration) and Paibos (kissing the Sultan's feet) were Persian court customs introduced by Balban to enhance the majesty of the Sultan and clearly assert his superiority over the nobles as the representative of God on Earth.<br><br>सिजदा (साष्टांग प्रणाम) और पैबोस (सुल्तान के पैरों को चूमना) फ़ारसी दरबारी रीति-रिवाज थे, जिन्हें बलबन ने सुल्तान के वैभव को बढ़ाने और स्वयं को पृथ्वी पर ईश्वर के प्रतिनिधि के रूप में रईसों से ऊपर प्रतिष्ठित करने के लिए शुरू किया।"},
+ {q:"Consider the following statements about Alauddin Khilji's market reforms:<br>अलाउद्दीन खिलजी के बाजार सुधारों के बारे में निम्नलिखित कथनों पर विचार करें:<br>1. He fixed the prices of all essential commodities.<br>1. उसने सभी आवश्यक वस्तुओं की कीमतें तय कर दीं।<br>2. He created a separate department called 'Diwan-i-Mustakhraj'.<br>2. उसने 'दीवान-ए-मुस्तखराज' नामक एक अलग विभाग बनाया।<br>Which of the statements given above is/are correct?<br>ऊपर दिए गए कथनों में से कौन सा/से सही है/हैं?", options:["Only 1 / केवल 1","Only 2 / केवल 2","Both 1 and 2 / 1 और 2 दोनों","Neither 1 nor 2 / न तो 1 और न ही 2"], ans:2, sol:"Alauddin Khilji fixed the prices of essential commodities to maintain a large army at low salaries. He also created the department 'Diwan-i-Mustakhraj' to collect arrears of revenue and curb corruption among revenue officials.<br><br>अलाउद्दीन खिलजी ने कम वेतन पर बड़ी सेना बनाए रखने के लिए आवश्यक वस्तुओं की कीमतें निश्चित कर दीं। राजस्व अधिकारियों में फैले भ्रष्टाचार पर अंकुश लगाने और बकाया भू-राजस्व वसूलने के लिए उसने 'दीवान-ए-मुस्तखराज' नामक विभाग की स्थापना की।"},
+ {q:"Assertion (A): Razia Sultan's reign was very short and ended in 1240 AD.<br>अभिकथन (A): रज़िया सुल्तान का शासनकाल बहुत छोटा था और 1240 ईस्वी में समाप्त हो गया।<br>Reason (R): She appointed an Abyssinian slave, Malik Yakut, to a high post, which angered the Turkish nobles.<br>कारण (R): उसने एक अबीसीनियाई गुलाम, मलिक याकूत को एक उच्च पद पर नियुक्त किया, जिससे तुर्क रईस नाराज हो गए।", options:["Both A and R are true and R is the correct explanation of A. / A और R दोनों सत्य हैं और R, A की सही व्याख्या है।","Both A and R are true but R is not the correct explanation of A. / A और R दोनों सत्य हैं लेकिन R, A की सही व्याख्या नहीं है।","A is true but R is false. / A सत्य है लेकिन R असत्य है।","A is false but R is true. / A असत्य है लेकिन R सत्य है।"], ans:0, sol:"Razia Sultan's reign indeed ended in 1240 AD and was short-lived. Her appointment of the Abyssinian slave Malik Yakut as 'Amir-i-Akhur' (Master of the Stables) was seen by the powerful 'Forty' Turkish nobles as a challenge to their monopoly, which contributed directly to her downfall.<br><br>रज़िया सुल्तान का शासनकाल वास्तव में अल्पकालिक रहा और 1240 ईस्वी में समाप्त हो गया। अबीसीनियाई गुलाम मलिक याकूत को 'अमीर-ए-आखुर' (स्तबलों का प्रमुख) नियुक्त करना शक्तिशाली 'चालीसा' तुर्क रईसों के एकाधिकार के लिए चुनौती माना गया, जिसने उसके पतन में सीधा योगदान दिया।"},
+ {q:"Which of the following statements is/are correct regarding the 'Zawabit' under the Delhi Sultanate?<br>दिल्ली सल्तनत के तहत 'ज़वाबित' के संबंध में निम्नलिखित में से कौन सा/से कथन सही है/हैं?<br>1. They were state laws made by the Sultan.<br>1. वे सुल्तान द्वारा बनाए गए राज्य के कानून थे।<br>2. They were always based strictly on Shariat.<br>2. वे हमेशा सख्ती से शरीयत पर आधारित होते थे।<br>Select the correct answer:<br>सही उत्तर चुनें:", options:["Only 1 / केवल 1","Only 2 / केवल 2","Both 1 and 2 / 1 और 2 दोनों","Neither 1 nor 2 / न तो 1 और न ही 2"], ans:0, sol:"Zawabit were secular state laws framed by the Sultans to suit administrative and political needs. They were often distinct from, and sometimes even in conflict with, religious law (Shariat). Hence, only statement 1 is correct.<br><br>ज़वाबित प्रशासनिक और राजनीतिक आवश्यकताओं के अनुरूप सुल्तानों द्वारा बनाए गए धर्मनिरपेक्ष राज्य कानून थे। वे प्रायः धार्मिक कानून (शरीयत) से भिन्न, और कभी-कभी उसके विपरीत भी होते थे। इसलिए केवल कथन 1 सही है।"},
+ {q:"Assertion (A): The Slave Dynasty is also known as the Mamluk Dynasty.<br>अभिकथन (A): गुलाम वंश को ममलुक वंश के रूप में भी जाना जाता है।<br>Reason (R): All the rulers of this dynasty were slaves of their predecessors.<br>कारण (R): इस वंश के सभी शासक अपने पूर्ववर्तियों के गुलाम थे।", options:["Both A and R are true and R is the correct explanation of A. / A और R दोनों सत्य हैं और R, A की सही व्याख्या है।","Both A and R are true but R is not the correct explanation of A. / A और R दोनों सत्य हैं लेकिन R, A की सही व्याख्या नहीं है।","A is true but R is false. / A सत्य है लेकिन R असत्य है।","A is false but R is true. / A असत्य है लेकिन R सत्य है।"], ans:2, sol:"The term 'Mamluk' literally means 'owned' or 'slave', so the Slave Dynasty is indeed called the Mamluk Dynasty. However, although major rulers like Aibak, Iltutmish and Balban were originally slaves, they were manumitted (freed) before becoming Sultans, and not all later rulers were slaves of their predecessors. Thus A is true but R is false.<br><br>'ममलुक' शब्द का अर्थ 'स्वामित्व वाला' या 'गुलाम' होता है, इसलिए गुलाम वंश को ममलुक वंश भी कहा जाता है। यद्यपि ऐबक, इल्तुतमिश और बलबन जैसे प्रमुख सुल्तान मूल रूप से गुलाम थे, लेकिन सुल्तान बनने से पहले उन्हें मुक्त कर दिया गया था और बाद के सभी शासक अपने पूर्ववर्तियों के गुलाम नहीं थे। अतः A सत्य है किंतु R असत्य है।"},
+ {q:"Consider the following statements about Alauddin Khilji's Southern campaigns:<br>अलाउद्दीन खिलजी के दक्षिणी अभियानों के बारे में निम्नलिखित कथनों पर विचार करें:<br>1. He was the first Sultan to cross the Vindhyas.<br>1. विंध्य को पार करने वाला वह पहला सुल्तान था।<br>2. He directly annexed all the South Indian territories into the Delhi Sultanate.<br>2. उसने सीधे तौर पर सभी दक्षिण भारतीय क्षेत्रों को दिल्ली सल्तनत में मिला लिया।<br>Which statement is correct?<br>कौन सा कथन सही है?", options:["Only 1 / केवल 1","Only 2 / केवल 2","Both 1 and 2 / 1 और 2 दोनों","Neither 1 nor 2 / न तो 1 और न ही 2"], ans:0, sol:"Alauddin Khilji was indeed the first Sultan of Delhi to send armies across the Vindhyas into the Deccan and far South. However, he did not directly annex all Southern kingdoms; instead he forced them to pay annual tribute and acknowledge his suzerainty. Hence, only statement 1 is correct.<br><br>अलाउद्दीन खिलजी वास्तव में दिल्ली का पहला सुल्तान था जिसकी सेनाएँ विंध्य पार कर दक्कन और दक्षिण भारत में पहुँचीं। लेकिन उसने सभी दक्षिणी राज्यों को सीधे सल्तनत में नहीं मिलाया, बल्कि उन्हें वार्षिक कर देने और अपनी अधीनता स्वीकार करने के लिए बाध्य किया। अतः केवल कथन 1 सही है।"},
+ {q:"Assertion (A): Alauddin Khilji maintained a huge standing army in Delhi.<br>अभिकथन (A): अलाउद्दीन खिलजी ने दिल्ली में एक विशाल स्थायी सेना रखी।<br>Reason (R): He wanted to protect the Sultanate from frequent Mongol invasions.<br>कारण (R): वह बार-बार होने वाले मंगोल आक्रमणों से सल्तनत की रक्षा करना चाहता था।", options:["Both A and R are true and R is the correct explanation of A. / A और R दोनों सत्य हैं और R, A की सही व्याख्या है।","Both A and R are true but R is not the correct explanation of A. / A और R दोनों सत्य हैं लेकिन R, A की सही व्याख्या नहीं है।","A is true but R is false. / A सत्य है लेकिन R असत्य है।","A is false but R is true. / A असत्य है लेकिन R सत्य है।"], ans:0, sol:"During Alauddin Khilji's reign, the Mongols invaded India multiple times. To protect the Sultanate and its capital, he maintained a huge, well-organized standing army, and his market and revenue reforms were also directed towards supporting this army. Thus R correctly explains A.<br><br>अलाउद्दीन खिलजी के शासनकाल के दौरान मंगोलों ने कई बार भारत पर आक्रमण किया। सल्तनत और राजधानी की रक्षा के लिए उसने एक विशाल, संगठित स्थायी सेना रखी और उसके बाज़ार व राजस्व सुधार भी इसी सेना को सहारा देने के लिए थे। इसलिए R, A की सही व्याख्या करता है।"},
+ {q:"With reference to the architecture of the Slave Dynasty, consider these statements:<br>गुलाम वंश की वास्तुकला के संदर्भ में, इन कथनों पर विचार करें:<br>1. The Quwat-ul-Islam Mosque was built by Iltutmish.<br>1. कुवत-उल-इस्लाम मस्जिद इल्तुतमिश द्वारा बनाई गई थी।<br>2. Adhai Din Ka Jhonpra is located in Ajmer.<br>2. अढ़ाई दिन का झोंपड़ा अजमेर में स्थित है।<br>Select the correct option:<br>सही विकल्प का चयन करें:", options:["Only 1 / केवल 1","Only 2 / केवल 2","Both 1 and 2 / 1 और 2 दोनों","Neither 1 nor 2 / न तो 1 और न ही 2"], ans:1, sol:"The Quwat-ul-Islam Mosque in Delhi was built by Qutub-ud-din Aibak, not by Iltutmish. Adhai Din Ka Jhonpra is indeed located in Ajmer and was also built by Aibak on the site of a former Sanskrit college. Hence only statement 2 is correct.<br><br>दिल्ली की कुवत-उल-इस्लाम मस्जिद कुतुब-उद-दीन ऐबक ने बनवाई थी, न कि इल्तुतमिश ने। अढ़ाई दिन का झोंपड़ा वास्तव में अजमेर में स्थित है और इसे भी ऐबक ने एक प्राचीन संस्कृत महाविद्यालय के स्थान पर बनवाया था। इसलिए केवल कथन 2 सही है।"},
+ {q:"Assertion (A): The Khilji Dynasty's rule ended with the death of Khusrau Khan.<br>अभिकथन (A): खिलजी वंश का शासन खुसरो खान की मृत्यु के साथ समाप्त हुआ।<br>Reason (R): Ghiyasuddin Tughlaq defeated Khusrau Khan to establish the Tughlaq Dynasty.<br>कारण (R): गयासुद्दीन तुगलक ने तुगलक वंश की स्थापना के लिए खुसरो खान को हराया।", options:["Both A and R are true and R is the correct explanation of A. / A और R दोनों सत्य हैं और R, A की सही व्याख्या है।","Both A and R are true but R is not the correct explanation of A. / A और R दोनों सत्य हैं लेकिन R, A की सही व्याख्या नहीं है।","A is true but R is false. / A सत्य है लेकिन R असत्य है।","A is false but R is true. / A असत्य है लेकिन R सत्य है।"], ans:0, sol:"Khusrau Khan, the last ruler associated with the Khilji line (though not a Khilji by blood), was defeated and killed by Ghiyasuddin Tughlaq in 1320 AD. This victory ended Khilji rule and marked the beginning of the Tughlaq Dynasty, so R correctly explains A.<br><br>खुसरो खान, जो रक्त से खिलजी न होते हुए भी अंतिम खिलजी शासक माने जाते हैं, 1320 ईस्वी में गयासुद्दीन तुगलक द्वारा पराजित और मारे गए। इसी के साथ खिलजी शासन का अंत हुआ और तुगलक वंश की शुरुआत हुई, अतः R, A की सही व्याख्या करता है।"}
+];
+
+// quiz state
+let currentIndex = 0;
+let selected = new Array(questions.length).fill(null);
+let visited = new Array(questions.length).fill(false);
+let time = 0;
+let timerId;
+let popupShown = false;
+
+// localStorage key
+const LS_KEY = "vivid_sangam_quiz_state_v1";
+
+/* =====================================================
+   INIT
+   ===================================================== */
+
+function initQuiz(){
+    // Total Q meta
+    document.getElementById("totalQMeta").textContent = questions.length;
+
+    // try restore from localStorage
+    restoreState();
+
+    buildPalette();
+    loadQ();
+    startTimer();
+    applySavedTheme();
+}
+
+function startTimer(){
+    if(timerId) clearInterval(timerId);
+    timerId = setInterval(()=>{
+        time++;
+        const m = Math.floor(time/60);
+        const s = time%60;
+        document.getElementById("time").innerText =
+            (m<10?"0"+m:m) + ":" + (s<10?"0"+s:s);
+    },1000);
+}
+
+/* =====================================================
+   THEME TOGGLE
+   ===================================================== */
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    document.getElementById("themeIcon").textContent = isDark ? "☀️" : "🌙";
+    document.getElementById("themeLabel").textContent = isDark ? "Light Mode" : "Dark Mode";
+    try{
+        localStorage.setItem("vivid_theme",""+(isDark?"dark":"light"));
+    }catch(e){}
+}
+
+function applySavedTheme(){
+    try{
+        const th = localStorage.getItem("vivid_theme");
+        if(th==="dark"){
+            document.body.classList.add("dark");
+            document.getElementById("themeIcon").textContent = "☀️";
+            document.getElementById("themeLabel").textContent = "Light Mode";
+        }
+    }catch(e){}
+}
+
+/* =====================================================
+   QUESTION PALETTE
+   ===================================================== */
+
+function buildPalette(){
+    const pal = document.getElementById("qPalette");
+    let html = "";
+    for(let idx=0; idx<questions.length; idx++){
+        html += `<button type="button" class="q-btn not-visited" id="qBtn${idx}" onclick="jumpTo(${idx})">
+                   <span>Q${idx+1}</span>
+                 </button>`;
+    }
+    pal.innerHTML = html;
+    updatePalette();
+}
+
+function updatePalette(){
+    let attemptedCount = 0;
+    for(let idx=0; idx<questions.length; idx++){
+        const btn = document.getElementById("qBtn"+idx);
+        if(!btn) continue;
+        btn.classList.remove("active","answered","not-visited");
+        if(idx===currentIndex){
+            btn.classList.add("active");
+        }
+        if(selected[idx]!==null){
+            btn.classList.add("answered");
+            attemptedCount++;
+        }else if(!visited[idx]){
+            btn.classList.add("not-visited");
+        }
+    }
+    document.getElementById("attemptedMeta").textContent = attemptedCount;
+}
+
+/* =====================================================
+   LOAD / NAVIGATE QUESTIONS
+   ===================================================== */
+
+function loadQ(){
+    visited[currentIndex] = true;
+
+    const qno = document.getElementById("qno");
+    const qel = document.getElementById("question");
+    const opWrap = document.getElementById("options");
+
+    qno.textContent = `Question ${currentIndex+1} of ${questions.length}`;
+    qel.innerHTML = questions[currentIndex].q;
+
+    let html = "";
+    questions[currentIndex].options.forEach((op,idx)=>{
+        let cls = "option";
+        if(selected[currentIndex] != null){
+            if(idx === questions[currentIndex].ans){
+                cls += " correct";
+            }else if(idx === selected[currentIndex]){
+                cls += " wrong";
+            }
+        }
+        html += `<label class="${cls}">
+                    <input type="radio" name="opt" ${selected[currentIndex]===idx ? "checked" : ""} onclick="selectOpt(${idx})">
+                    <span>${op}</span>
+                 </label>`;
+    });
+    opWrap.innerHTML = html;
+
+    updatePalette();
+    saveState();
+}
+
+function selectOpt(idx){
+    // allow changing answer before submit if you want -> remove this early return
+    if(selected[currentIndex] !== null) return;
+
+    selected[currentIndex] = idx;
+    if(idx !== questions[currentIndex].ans){
+        if("vibrate" in navigator){
+            navigator.vibrate(200);
+        }
+    }
+    loadQ();
+}
+
+function clearAns(){
+    selected[currentIndex] = null;
+    loadQ();
+}
+
+function nextQ(){
+    if(currentIndex === 0 && !popupShown){
+        showPopup();
+        return;
+    }
+    if(currentIndex < questions.length-1){
+        currentIndex++;
+        loadQ();
+    }
+}
+
+function prevQ(){
+    if(currentIndex>0){
+        currentIndex--;
+        loadQ();
+    }
+}
+
+function jumpTo(idx){
+    if(idx===0 && !popupShown){
+        showPopup();
+        return;
+    }
+    currentIndex = idx;
+    loadQ();
+}
+
+/* =====================================================
+   POPUP & WHATSAPP LINK
+   ===================================================== */
+
+function showPopup(){
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup(){
+    popupShown = true;
+    document.getElementById("popup").style.display = "none";
+}
+
+function joinChannel(){
+    try{
+        const lk = atob(_0xvh);
+        window.open(lk,"_blank");
+        popupShown = true;
+        document.getElementById("popup").style.display = "none";
+        if(currentIndex < questions.length-1){
+            currentIndex++;
+            loadQ();
+        }
+    }catch(e){
+        alert("Error opening WhatsApp link!");
+    }
+}
+
+/* =====================================================
+   SUBMIT & RESULT
+   ===================================================== */
+
+function submitQuiz(){
+    clearInterval(timerId);
+    document.getElementById("quiz").style.display = "none";
+
+    let score = 0;
+    questions.forEach((q,idx)=>{
+        if(selected[idx] === q.ans) score++;
+    });
+
+    let res = `<div class="score-box">
+                    Your Score<br>${score} / ${questions.length}
+               </div>`;
+
+    questions.forEach((q,idx)=>{
+        const userIdx = selected[idx];
+        const correctOpt = q.options[q.ans];
+        const userText = (userIdx != null) ? q.options[userIdx] : "Not Attempted";
+
+        const cls = (userIdx === q.ans) ? "correct-text" : "wrong-text";
+
+        res += `<div class="explain-block">
+                    <b>Q${idx+1}:</b> ${q.q}
+                    <br>
+                    <span class="${cls}">Your Answer: ${userText}</span>
+                    <br>
+                    <span class="correct-text">Correct: ${correctOpt}</span>
+                    <div class="solution">
+                        <b>Explanation:</b> ${q.sol}
+                    </div>
+                </div>`;
+    });
+
+    const rEl = document.getElementById("result");
+    rEl.innerHTML = res;
+    rEl.style.display = "block";
+
+    // clear saved state after submit
+    clearState();
+}
+
+/* =====================================================
+   LOCALSTORAGE SAVE/RESTORE
+   ===================================================== */
+
+function saveState(){
+    try{
+        const data = {
+            currentIndex,
+            selected,
+            visited,
+            time,
+            popupShown
+        };
+        localStorage.setItem(LS_KEY, JSON.stringify(data));
+    }catch(e){
+        // ignore storage issues
+    }
+}
+
+function restoreState(){
+    try{
+        const raw = localStorage.getItem(LS_KEY);
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        if(!data || !Array.isArray(data.selected)) return;
+
+        if(data.selected.length === questions.length){
+            selected = data.selected;
+        }
+        if(Array.isArray(data.visited) && data.visited.length === questions.length){
+            visited = data.visited;
+        }
+        currentIndex = typeof data.currentIndex === "number" ? data.currentIndex : 0;
+        time = typeof data.time === "number" ? data.time : 0;
+        popupShown = !!data.popupShown;
+
+        // restore timer display
+        const m = Math.floor(time/60);
+        const s = time%60;
+        document.getElementById("time").innerText =
+            (m<10?"0"+m:m) + ":" + (s<10?"0"+s:s);
+    }catch(e){
+        // ignore parsing error
+    }
+}
+
+function clearState(){
+    try{
+        localStorage.removeItem(LS_KEY);
+    }catch(e){}
+}
+
+/* =====================================================
+   BASIC ANTI-COPY
+   ===================================================== */
+
+// Disable right-click
+document.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+});
+
+// Disable copy event
+document.addEventListener('copy', function(e){
+    e.preventDefault();
+});
+
+// Block common keyboard shortcuts for copying / view-source / devtools
+document.addEventListener('keydown', function(e){
+    const key = e.key.toLowerCase();
+
+    // Ctrl / Command + C, U, S, A, P, X
+    if ((e.ctrlKey || e.metaKey) && ['c','u','s','a','p','x'].includes(key)) {
+        e.preventDefault();
+    }
+
+    // Ctrl+Shift+I / J / C (DevTools shortcuts in some browsers)
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(key)) {
+        e.preventDefault();
+    }
+
+    // F12 key (DevTools)
+    if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+    }
+});
+
+/* =====================================================
+   BOOTSTRAP
+   ===================================================== */
+
+document.addEventListener("DOMContentLoaded", initQuiz);
+</script>
+</body>
+  </html>
