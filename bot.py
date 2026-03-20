@@ -4,25 +4,29 @@ import os
 import json
 from telebot import types
 
-# 🛠️ FIXED: Ye line Render/Server ke environment variables se token fetch karegi
-# Render dashboard par Variable Name: BOT_TOKEN aur Value: [Aapka Token] set karein.
-BOT_TOKEN = os.getenv("BOT_TOKEN") 
-bot = telebot.TeleBot(BOT_TOKEN)
+# 🛠️ Server se token uthane ka sahi tarika
+raw_token = os.getenv("BOT_TOKEN")
+
+# Debugging ke liye (Logs mein dikhega ki token fetch hua ya nahi)
+if not raw_token:
+    print("❌ ERROR: BOT_TOKEN environment variable nahi mila!")
+else:
+    print(f"✅ Token Found: {raw_token[:5]}***")
+
+bot = telebot.TeleBot(raw_token)
 
 user_data = {}
 
 def clean_html_text(text):
-    # HTML safe cleaning - Only basic quotes and newlines to <br>
     return text.replace('"', '&quot;').replace('\n', '<br>').strip()
 
 @bot.message_handler(commands=['start'])
 def start_cmd(message):
-    # Yahan hum template ko direct local file se load kar rahe hain (GitHub repo se)
     try:
         with open("QUIZ.html", "r", encoding="utf-8") as f:
             static_template = f.read()
     except FileNotFoundError:
-        bot.send_message(message.chat.id, "❌ <b>Error:</b> QUIZ.html not found in GitHub repo!", parse_mode="HTML")
+        bot.send_message(message.chat.id, "❌ <b>Error:</b> QUIZ.html not found in repo!", parse_mode="HTML")
         return
 
     user_data[message.chat.id] = {"template": static_template, "buffer": "", "state": 1}
@@ -35,7 +39,6 @@ def start_cmd(message):
     )
     
     markup = types.InlineKeyboardMarkup(row_width=2)
-    # Buttons logic same as requested
     btn_text = types.InlineKeyboardButton("📝 SEND TEXT MODE", callback_data="mode_text")
     btn_file = types.InlineKeyboardButton("📁 UPLOAD TXT FILE", callback_data="mode_file")
     markup.add(btn_text, btn_file)
@@ -101,8 +104,6 @@ def handle_key(message):
             if opt_a and opt_b and opt_c and opt_d:
                 q_text = body[:opt_a.start()].strip()
                 a_txt = body[opt_a.end():opt_b.start()].strip()
-                b_txt = body[opt_b.end():65].strip() # Same logic as original
-                b_txt = body[opt_a.end():opt_b.start()].strip()
                 b_txt = body[opt_b.end():opt_c.start()].strip()
                 c_txt = body[opt_c.end():opt_d.start()].strip()
                 d_txt = body[opt_d.end():].strip()
