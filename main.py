@@ -4,26 +4,24 @@ import os
 import json
 from telebot import types
 
-# 🛠️ SABSE IMPORTANT FIX:
-# Ye code pehle Render ke environment variable "BOT_TOKEN" ko check karega.
-# Agar nahi mila, toh ye crash hone ke bajaye error print karega.
+# 🛠️ Render Environment Variable Fix
+# Render Dashboard -> Environment -> Add Variable (Key: BOT_TOKEN)
 token_env = os.environ.get('BOT_TOKEN')
 
 if not token_env:
     print("❌ ERROR: Render dashboard mein BOT_TOKEN nahi mila!")
-    # Agar aap testing kar rahe ho toh yahan apna token daal sakte ho temporary:
-    # token_env = "YOUR_REAL_TOKEN_HERE" 
 
 bot = telebot.TeleBot(token_env)
 
 user_data = {}
 
 def clean_html_text(text):
+    # HTML safe cleaning - Only basic quotes and newlines to <br>
     return text.replace('"', '&quot;').replace('\n', '<br>').strip()
 
 @bot.message_handler(commands=['start'])
 def start_cmd(message):
-    # Template direct local repo se uthayega
+    # Template direct local repo se load hoga (QUIZ.html hona chahiye repo mein)
     try:
         with open("QUIZ.html", "r", encoding="utf-8") as f:
             static_template = f.read()
