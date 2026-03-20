@@ -4,16 +4,17 @@ import os
 import json
 from telebot import types
 
-# 🛠️ Server se token uthane ka sahi tarika
-raw_token = os.getenv("BOT_TOKEN")
+# 🛠️ SABSE IMPORTANT FIX:
+# Ye code pehle Render ke environment variable "BOT_TOKEN" ko check karega.
+# Agar nahi mila, toh ye crash hone ke bajaye error print karega.
+token_env = os.environ.get('BOT_TOKEN')
 
-# Debugging ke liye (Logs mein dikhega ki token fetch hua ya nahi)
-if not raw_token:
-    print("❌ ERROR: BOT_TOKEN environment variable nahi mila!")
-else:
-    print(f"✅ Token Found: {raw_token[:5]}***")
+if not token_env:
+    print("❌ ERROR: Render dashboard mein BOT_TOKEN nahi mila!")
+    # Agar aap testing kar rahe ho toh yahan apna token daal sakte ho temporary:
+    # token_env = "YOUR_REAL_TOKEN_HERE" 
 
-bot = telebot.TeleBot(raw_token)
+bot = telebot.TeleBot(token_env)
 
 user_data = {}
 
@@ -22,6 +23,7 @@ def clean_html_text(text):
 
 @bot.message_handler(commands=['start'])
 def start_cmd(message):
+    # Template direct local repo se uthayega
     try:
         with open("QUIZ.html", "r", encoding="utf-8") as f:
             static_template = f.read()
