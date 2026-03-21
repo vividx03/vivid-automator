@@ -154,7 +154,7 @@ def finish_quiz(message):
         f.write(template)
 
     with open(file_name, "rb") as f:
-        bot.send_document(chat_id, f, caption=f"✨ <b>QUIZ DEPLOYED</b>\n━━━━━━━━━━━━━━━━━━━━\n<b>Topic:</b> {topic}\n<b>Creator:</b> Vivid", parse_mode="HTML")
+        bot.send_document(chat_id, f, caption=f"✨ <b>QUIZ DEPLOYED</b>\n━━━━━━━━━━━━━━━━━━━━\n<b>📄 Topic:</b> {topic}\n<b>💎 𝐏𝐎𝐖𝐄𝐑𝐄𝐃 𝐁𝐘 :</b> 𝐕𝐈𝐕𝐈𝐃 🖤✨", parse_mode="HTML")
     
     os.remove(file_name)
     user_data[chat_id] = {"template": None, "buffer": "", "state": 0}
